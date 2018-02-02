@@ -4,6 +4,8 @@
 # Testcase: https://xkcd.com/353/
 # Example: seed = 'https://udacity.github.io/cs101x/index.html'
 
+maxPages = 100 # Maximum number of pages that the crawler should crawl
+maxDepth = 10 # Max depth that the crawler should search for a particular link
 seed = input()
 
 # get source text url as return value
@@ -47,21 +49,28 @@ def union(p,q):
 			p.append(i)
 
 # crawl seed page for links recursively
-def crawl_web(seed):
+def crawl_web(seed, maxPages, maxDepth):
 	tocrawl = [seed] # list of pages left to crawl
 	crawled = [] # list of pages crawled
+	nextDepth = [] # to keep track of depth
+	depth = 0 # initial depth
 
-	while tocrawl:
+	# we crawl till there's nothing left to crawl or till we've reached a specified depth
+	while tocrawl and depth <= maxDepth:
 		page = tocrawl.pop()
-		# we only crawl the page if we haven't already
-		if page not in crawled:
-			union(tocrawl, get_all_links(get_page(page)))
+		# we only crawl the page if we haven't already and if we haven't reached the limit specified
+		if page not in crawled and len(crawled) < maxPages:
+			union(nextDepth, get_all_links(get_page(page)))
 			crawled.append(page)
+		# once tocrawl is empty, we transfer the elements of nextDepth to tocrawl and empty nextDepth for next iteration
+		if not tocrawl:
+			tocrawl, nextDepth = nextDepth, []
+			depth += 1
 	
 	return crawled
 
 # Main program
 print("\nReachable links:")
-crawled = crawl_web(seed)
+crawled = crawl_web(seed, maxPages, maxDepth)
 for i in crawled:
 	print(i)
