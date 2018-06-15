@@ -6,7 +6,7 @@
 
 maxPages = 100 # Maximum number of pages that the crawler should crawl
 maxDepth = 10 # Max depth that the crawler should search for a particular link
-seed = input()
+seed = input("Input url: ")
 
 # get source text url as return value
 def get_page(url): 
@@ -17,6 +17,9 @@ def get_page(url):
 
 # return link url and get position of next link
 def get_next_target(page):
+	if page is None:
+		return None, 0
+
 	start_link = page.find('<a href=')
 
 	# If link sequence is not found
@@ -66,6 +69,7 @@ def crawl_web(seed, maxPages, maxDepth):
 		if not tocrawl:
 			tocrawl, nextDepth = nextDepth, []
 			depth += 1
+			print("Processing depth", depth)
 	
 	return crawled
 
