@@ -6,7 +6,6 @@
 
 maxPages = 100 # Maximum number of pages that the crawler should crawl
 maxDepth = 10 # Max depth that the crawler should search for a particular link
-seed = input("Input url: ")
 
 # get source text url as return value
 def get_page(url): 
@@ -74,7 +73,9 @@ def crawl_web(seed, maxPages, maxDepth):
 	return crawled
 
 # Main program
-print("\nReachable links:")
-crawled = crawl_web(seed, maxPages, maxDepth)
-for i in crawled:
-	print(i)
+if __name__ == "__main__":
+	seed = input("Input url: ")
+	print("\nReachable links:")
+	crawled = crawl_web(seed, maxPages, maxDepth)
+	for i in crawled:
+		print(i)

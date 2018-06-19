@@ -13,7 +13,7 @@
 # If the keyword is not in the index,
 # add an entry to the index: [keyword,[url]]
 
-index = []
+#index = []
 
 def add_to_index(index,keyword,url):
     for entry in index:
